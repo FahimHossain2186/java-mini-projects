@@ -1,0 +1,189 @@
+
+<h2 class="sr-only">Java beginner to Algorithm Visualizer — 6-stage project roadmap with expandable project cards</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { padding: 0; }
+.stage { margin-bottom: 2rem; }
+.stage-header { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; }
+.stage-num { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; flex-shrink: 0; }
+.stage-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.stage-sub { font-size: 12px; color: var(--color-text-tertiary); margin-top: 2px; }
+.connector { width: 1px; background: var(--color-border-secondary); height: 20px; margin-left: 15px; margin-bottom: 0.5rem; }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); margin-bottom: 10px; overflow: hidden; cursor: pointer; }
+.card:hover { border-color: var(--color-border-secondary); }
+.card-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; }
+.card-left { display: flex; align-items: center; gap: 12px; }
+.card-icon { width: 36px; height: 36px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 16px; }
+.card-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+.card-tag { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+.card-body { display: none; padding: 0 16px 16px; border-top: 0.5px solid var(--color-border-tertiary); margin-top: 0; }
+.card-body.open { display: block; }
+.card-body p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-top: 12px; }
+.skills-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.skill-badge { font-size: 11px; padding: 3px 8px; border-radius: var(--border-radius-md); background: var(--color-background-secondary); color: var(--color-text-secondary); border: 0.5px solid var(--color-border-tertiary); }
+.link-btn { font-size: 12px; margin-top: 12px; padding: 6px 14px; }
+.chevron { font-size: 16px; color: var(--color-text-tertiary); transition: transform 0.2s; flex-shrink: 0; }
+.chevron.open { transform: rotate(180deg); }
+
+.s1 .stage-num { background: #E1F5EE; color: #0F6E56; }
+.s2 .stage-num { background: #E6F1FB; color: #185FA5; }
+.s3 .stage-num { background: #FAEEDA; color: #854F0B; }
+.s4 .stage-num { background: #EEEDFE; color: #3C3489; }
+.s5 .stage-num { background: #FAECE7; color: #993C1D; }
+.s6 .stage-num { background: #EAF3DE; color: #3B6D11; }
+
+.s1 .card-icon { background: #E1F5EE; color: #0F6E56; }
+.s2 .card-icon { background: #E6F1FB; color: #185FA5; }
+.s3 .card-icon { background: #FAEEDA; color: #854F0B; }
+.s4 .card-icon { background: #EEEDFE; color: #3C3489; }
+.s5 .card-icon { background: #FAECE7; color: #993C1D; }
+.s6 .card-icon { background: #EAF3DE; color: #3B6D11; }
+</style>
+
+<div id="roadmap" style="padding: 0.5rem 0 1rem;"></div>
+
+<script>
+const stages = [
+  {
+    cls: "s1", num: "1", weeks: "Weeks 1–2", title: "Java basics — syntax, types, control flow",
+    projects: [
+      {
+        icon: "ti-calculator", name: "Calculator CLI",
+        tag: "~3 days · 1 class · no OOP",
+        what: "Command-line calculator. User types '5 + 3' and gets '8'. Handle +, -, *, /, and division by zero. Use Scanner for input and a switch statement for operators.",
+        skills: ["Variables", "Scanner", "switch", "while loop", "int/double", "System.out"]
+      },
+      {
+        icon: "ti-arrows-shuffle", name: "Number guessing game",
+        tag: "~2 days · 1 class · loops + conditionals",
+        what: "Computer picks a random number 1–100. Player guesses. Print 'too high', 'too low', or 'correct'. Count attempts and show them at the end. Use Math.random() and a while loop.",
+        skills: ["Math.random()", "if/else", "while loop", "Scanner", "int comparison"]
+      }
+    ]
+  },
+  {
+    cls: "s2", num: "2", weeks: "Weeks 3–4", title: "Arrays, methods, and String manipulation",
+    projects: [
+      {
+        icon: "ti-chart-bar", name: "Student grade tracker",
+        tag: "~4 days · 2–3 methods · arrays",
+        what: "Store 10 student names and scores in two arrays. Write methods: findAverage(), findHighest(), findLowest(), letterGrade(score). Print a formatted report. No ArrayList yet — use plain arrays.",
+        skills: ["Arrays", "Methods", "for loops", "String formatting", "Math.max/min"]
+      },
+      {
+        icon: "ti-file-text", name: "Word frequency counter",
+        tag: "~3 days · String methods",
+        what: "User types a sentence. Count how many times each word appears. Print the top 5 words. Teaches you split(), toLowerCase(), and your first encounter with a simple counting algorithm.",
+        skills: ["String.split()", "toLowerCase()", "Arrays.sort()", "Nested loops", "String methods"]
+      }
+    ]
+  },
+  {
+    cls: "s3", num: "3", weeks: "Weeks 5–7", title: "OOP — classes, inheritance, interfaces",
+    projects: [
+      {
+        icon: "ti-building-bank", name: "Bank account system",
+        tag: "~1 week · 4 classes · core OOP",
+        what: "Classes: BankAccount (balance, deposit, withdraw), SavingsAccount extends BankAccount (interest), CurrentAccount extends BankAccount (overdraft limit). A Main class runs a menu loop. First real multi-class project.",
+        skills: ["Classes & objects", "extends", "super()", "Encapsulation", "Method overriding", "ArrayList"]
+      },
+      {
+        icon: "ti-package", name: "Online shop inventory",
+        tag: "~1 week · interface + abstract class",
+        what: "Interface Sellable with methods getPrice() and getDescription(). Classes: PhysicalProduct (has weight), DigitalProduct (has downloadUrl). Store them in one ArrayList<Sellable>. Print cart total. Teaches polymorphism hands-on.",
+        skills: ["Interface", "implements", "Abstract class", "Polymorphism", "ArrayList", "instanceof"]
+      }
+    ]
+  },
+  {
+    cls: "s4", num: "4", weeks: "Weeks 8–10", title: "Data structures — Collections, generics",
+    projects: [
+      {
+        icon: "ti-list-check", name: "Task manager CLI",
+        tag: "~1 week · HashMap + generics",
+        what: "Tasks have id, title, priority (enum: HIGH/MED/LOW), status. Store in HashMap<Integer, Task>. Commands: add, complete, delete, list-by-priority, search-by-title. First time using generics meaningfully.",
+        skills: ["HashMap", "Enum", "Generics", "Comparator", "Collections.sort()", "Iterator"]
+      },
+      {
+        icon: "ti-tournament", name: "Binary search tree",
+        tag: "~1 week · recursion + nodes",
+        what: "Build a BST from scratch. Node class with left/right children. Implement: insert(int), search(int), inOrder(), height(). This is the exact same structure used in the visualizer's Tree Engine. Huge payoff later.",
+        skills: ["Recursion", "Linked nodes", "Generic class Node<T>", "Tree traversal", "Stack frames"]
+      }
+    ]
+  },
+  {
+    cls: "s5", num: "5", weeks: "Weeks 11–13", title: "Concurrency + design patterns",
+    projects: [
+      {
+        icon: "ti-clock-play", name: "Multi-threaded download simulator",
+        tag: "~1 week · threads + Runnable",
+        what: "Simulate 5 file downloads running in parallel. Each 'download' is a thread that sleeps (random 1–5s) and prints progress every second. Use ExecutorService — the exact same class used in AlgorithmService.java.",
+        skills: ["Thread", "Runnable", "ExecutorService", "Future", "synchronized", "Thread.sleep()"]
+      },
+      {
+        icon: "ti-layout-grid", name: "Strategy pattern sorter",
+        tag: "~5 days · design pattern",
+        what: "Interface SortStrategy with sort(int[] arr). Implement BubbleSort, MergeSort, QuickSort. A Sorter class takes any strategy via constructor. Switch strategy at runtime. This IS the AlgorithmEngine pattern from the visualizer.",
+        skills: ["Strategy pattern", "Dependency injection", "Interface polymorphism", "Algorithm impl", "JUnit 5 basics"]
+      }
+    ]
+  },
+  {
+    cls: "s6", num: "6", weeks: "Weeks 14–16", title: "Spring Boot + WebSocket — bridge to the final project",
+    projects: [
+      {
+        icon: "ti-api", name: "REST API — todo service",
+        tag: "~1 week · Spring Boot intro",
+        what: "Spring Boot app with GET /todos, POST /todos, DELETE /todos/{id}. Store todos in memory (no DB). Test with Postman or curl. Teaches you @RestController, @RequestBody, ResponseEntity — all used in AlgorithmController.java.",
+        skills: ["Spring Boot", "@RestController", "@GetMapping", "ResponseEntity", "Maven", "application.properties"]
+      },
+      {
+        icon: "ti-broadcast", name: "Live chat with WebSocket",
+        tag: "~1 week · STOMP + SockJS",
+        what: "Spring Boot backend + simple HTML frontend. Multiple browser tabs connect and chat in real time via WebSocket. This is the exact same plumbing as the visualizer's frame broadcasting — just with chat messages instead of Frames.",
+        skills: ["STOMP", "SimpMessagingTemplate", "WebSocketConfig", "SockJS", "subscribe/publish", "JavaScript WS client"]
+      }
+    ]
+  }
+];
+
+function toggle(card) {
+  const body = card.querySelector('.card-body');
+  const chev = card.querySelector('.chevron');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+const root = document.getElementById('roadmap');
+stages.forEach((stage, si) => {
+  const div = document.createElement('div');
+  div.className = `stage ${stage.cls}`;
+  let html = `
+    <div class="stage-header">
+      <div class="stage-num">${stage.num}</div>
+      <div><div class="stage-title">${stage.title}</div><div class="stage-sub">${stage.weeks}</div></div>
+    </div>`;
+  stage.projects.forEach(p => {
+    html += `
+    <div class="card" onclick="toggle(this)">
+      <div class="card-header">
+        <div class="card-left">
+          <div class="card-icon"><i class="ti ${p.icon}" aria-hidden="true"></i></div>
+          <div><div class="card-name">${p.name}</div><div class="card-tag">${p.tag}</div></div>
+        </div>
+        <i class="ti ti-chevron-down chevron" aria-hidden="true"></i>
+      </div>
+      <div class="card-body">
+        <p>${p.what}</p>
+        <div class="skills-row">${p.skills.map(s => `<span class="skill-badge">${s}</span>`).join('')}</div>
+        <button class="link-btn" onclick="event.stopPropagation(); sendPrompt('Give me the full project spec and starter code for: ${p.name} (Java beginner project stage ${stage.num})')">Get full spec + starter code ↗</button>
+      </div>
+    </div>`;
+  });
+  if (si < stages.length - 1) html += `<div class="connector"></div>`;
+  div.innerHTML = html;
+  root.appendChild(div);
+});
+</script>
