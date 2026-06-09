@@ -19,47 +19,44 @@ public class Main {
             System.out.print("base-lab> ");
             String command = input.nextLine().strip();
 
-            switch (command) {
-                case "exit" -> {
-                    System.out.print("Until next time");
-                    delay(1000);
-                    System.out.print('.');
-                    delay(1000);
-                    System.out.print('.');
-                    delay(1000);
-                    System.out.print('.');
-                    delay(1000);
-                    System.exit(0);
-                }
-                case "" -> {
-                    continue;
-                }
-                case "lab --help" -> {
-                    System.out.println("The LAB use the format 'given-base' 'required-base' 'argument'");
-                    System.out.println("The usual arguments are: ");
-                    System.out.println("bin              binary");
-                    System.out.println("dec              decimal");
-                    System.out.println("oct              octal");
-                    System.out.println("hex              hexadecimal");
-
-                    System.out.println("For custom base, use 'custom('base in integer')'");
-                    System.out.println("For example, 'dec cus(3) 128.12'");
+            if (command.equals("exit") || command.isEmpty() || command.equals("lab --help")) {
+                switch (command) {
+                    case "exit" -> {
+                        System.out.print("Until next time");
+                        for(int i = 0; i < 3; i++){
+                            delay(1000);  System.out.print('.');
+                        }
+                        delay(1000);
+                        System.exit(0);
+                    }
+                    case "" -> { continue; }
+                    case "lab --help" -> {
+                        System.out.println("The LAB use the format 'given-base' 'required-base' 'argument'");
+                        System.out.println("The usual arguments are: ");
+                        System.out.println("bin    binary");
+                        System.out.println("dec    decimal");
+                        System.out.println("oct    octal");
+                        System.out.println("hex    hexadecimal");
+                        System.out.println("For custom base: cus(N)  e.g. dec cus(3) 128");
+                    }
                 }
             }
 
-            try {
-                String result = calculatedResult(command);
-                System.out.println("Converted number in base " + result);
-            } catch (java.lang.Exception e) {
-                System.out.println("Error: " + e.getMessage());
+            else {
+                try {
+                    String result = calculatedResult(command);
+                    System.out.println("= " + result);
+                } catch (java.lang.Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+
             }
-            input.close();
         }
     }
 
     public static int customBase(String base) {
         try {
-            return  Integer.parseInt(base.substring(4, base.length() - 1));
+            return Integer.parseInt(base.substring(4, base.length() - 1));
         }
         catch(NumberFormatException e) {
             return 0;
@@ -79,18 +76,15 @@ public class Main {
     public static String calculatedResult(String command) {
 
         String[]  args = command.split(" ");
+        if(args.length != 3) throw new IllegalArgumentException("Format: <from-base> <to-base> <number>");
+
         int inputBase = baseConvert(args[0]);
         int outputBase = baseConvert(args[1]);
-        try {
-            int input = Integer.parseInt(args[2]);
-        }
-        catch(NumberFormatException e) {
-            System.out.println("Error: " + e.getMessage());
-        }
+        if (inputBase == 0) throw new IllegalArgumentException("Unknown input base: " + args[0]);
+        if (outputBase == 0) throw new IllegalArgumentException("Unknown output base: " + args[1]);
 
-
-
-        return "result_here";
+        NumberConverter converter = new NumberConverter();
+        return converter.convert(args[2], inputBase, outputBase);
     }
 }
 
